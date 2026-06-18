@@ -10,219 +10,247 @@
 
 # Project Overview
 
-This project demonstrates the design and implementation of a secure, company-style AWS networking environment built using core AWS infrastructure services.
+## AWS Secure Multi-Tier VPC Architecture (Production-Style Cloud Project)
 
-The goal was to create a production-inspired foundation that supports secure application deployment, controlled internet access, network segmentation, and identity management best practices.
+![AWS](https://img.shields.io/badge/AWS-Cloud-orange?style=for-the-badge&logo=amazon-aws)
+![VPC](https://img.shields.io/badge/Networking-VPC-blue?style=for-the-badge)
+![Security](https://img.shields.io/badge/Security-IAM%20%26%20Least%20Privilege-red?style=for-the-badge)
+![Architecture](https://img.shields.io/badge/Architecture-Multi--Tier-green?style=for-the-badge)
 
-Rather than simply deploying resources, this project focused on understanding how cloud environments are structured in real organisations, where security, scalability, and controlled access are critical.
+This project demonstrates how I designed and built a **secure, scalable, production-style AWS cloud environment** that simulates real-world enterprise infrastructure.
 
----
+The focus was on building a **multi-tier architecture inside AWS VPC** with strong security controls, network segmentation, and high availability design principles.
 
-# Project Objectives
+### Core Skills Demonstrated
 
-The environment was designed to achieve the following goals:
-
-* Build a custom Virtual Private Cloud (VPC)
-* Implement network segmentation using public and private subnets
-* Configure secure internet access using an Internet Gateway and NAT Gateway
-* Create route tables to control network traffic flow
-* Apply Security Group rules following the principle of least privilege
-* Implement IAM access controls with MFA protection
-* Produce architecture documentation and infrastructure diagrams
-
----
-
-# Architecture Components
-
-## Networking
-
-### Virtual Private Cloud (VPC)
-
-<img width="1280" height="637" alt="VPC" src="https://github.com/user-attachments/assets/4b62b204-68c5-4a75-a142-52a39db85f09" />
-
-
-A dedicated VPC was created to provide complete control over networking, routing, and security boundaries.
-
-### Public Subnets
-
-Two public subnets were deployed across separate Availability Zones.
-
-These subnets are intended for internet-facing resources such as:
-
-* Load Balancers
-* Bastion Hosts
-* Public-facing web services
-
-### Private Subnets
-
-Two private subnets were deployed across separate Availability Zones.
-
-These subnets are intended for internal workloads such as:
-
-* Application servers
-* Backend services
-* Databases
-
-Resources inside these subnets are not directly accessible from the internet.
+- AWS Networking & VPC Design  
+- Secure Cloud Architecture Patterns  
+- IAM Least-Privilege Access Control  
+- Multi-Tier System Architecture  
+- High Availability (Multi-AZ Deployment)  
 
 ---
 
-## Internet Gateway (IGW)
+## Architecture Overview
 
-<img width="1280" height="643" alt="IGW" src="https://github.com/user-attachments/assets/8af3f6d8-d314-4512-a1f1-4bf1dccd41f2" />
+A **3-tier cloud architecture** was deployed inside a custom AWS VPC:
 
-An Internet Gateway was attached to the VPC to provide inbound and outbound internet connectivity for resources located within public subnets.
+- **Web Tier (Public Subnets)** → Internet-facing layer  
+- **Application Tier (Private Subnets)** → Business logic layer  
+- **Database Tier (Private Subnets)** → Data storage layer  
+
+✔ Deployed across **2 Availability Zones**  
+✔ Designed for **fault tolerance & scalability**
+
+---
+## 🔁 System Architecture Flow
+
+```text
+Internet
+   │
+   ▼
+Internet Gateway (IGW)
+   │
+   ▼
+Public Subnets (Web Tier)
+   │
+   ▼
+Web Tier 
+   │
+   ▼
+Private Subnets (Application Tier)
+   │
+   ▼
+Application Tier
+   │
+   ▼
+Private Subnets (Database Tier)
+   │
+   ▼
+Database Tier
+```
+
 
 ---
 
-## NAT Gateway
+## AWS Services Used
 
-<img width="1280" height="644" alt="NAT" src="https://github.com/user-attachments/assets/ee416938-0696-4827-a848-6b9f87ec5eea" />
-
-A NAT Gateway was deployed to allow resources in private subnets to initiate outbound internet connections while remaining inaccessible from the public internet.
-
-This approach is commonly used for:
-
-* Operating system updates
-* Package downloads
-* External API communication
-
-without exposing private resources to inbound internet traffic.
-
----
-
-## Route Tables
-
-<img width="1280" height="638" alt="RT" src="https://github.com/user-attachments/assets/710e81a7-1fe2-433d-884a-4bee5c694e2a" />
-
-Separate route tables were configured to control traffic flow.
-
-### Public Route Table (Pub-rtb)
-
-Configured with routes to:
-
-* Local VPC traffic
-* Internet Gateway (0.0.0.0/0)
-
-### Private Route Table (Pri-rtb)
-
-Configured with routes to:
-
-* Local VPC traffic
-* NAT Gateway for outbound internet access
-
-This design ensures proper network isolation while maintaining required connectivity.
-
----
-
-# 🔒 Security Design
-
-## Security Groups
-
-<img width="1280" height="661" alt="security groups" src="https://github.com/user-attachments/assets/e7f00271-b7fe-40b9-92d5-de4186711509" />
-
-Security Groups were designed using a layered security approach.
-
-### Web Security Group
-
-Allows inbound HTTP/HTTPS traffic from the internet.
-
-Purpose:
-
-* Supports public-facing web applications.
-
-### Application Security Group
-
-Allows traffic only from approved web-tier resources.
-
-Purpose:
-
-* Protects backend application services from direct public access.
-
-### Database Security Group
-
-Allows traffic only from approved application-tier resources.
-
-Purpose:
-
-* Restricts database access to authorised internal systems.
-
-This security model reduces the attack surface and follows industry best practices for workload isolation.
-
----
-
-# 👤 Identity & Access Management (IAM)
-
-<img width="1280" height="673" alt="readonly" src="https://github.com/user-attachments/assets/61f5159e-461e-4e6d-9b46-123e53cc225f" />
-
-A custom IAM role named:
-
-**DevOpsStudentRole**
-
-was created in accordance with the principle of least privilege.
-
-The role was configured to provide only the permissions required to perform designated tasks rather than broad administrative access.
-
-<img width="1278" height="627" alt="DevOps MFA" src="https://github.com/user-attachments/assets/dbd7037c-c755-48d0-ac01-3b875742be94" />
-
-Additional security controls included:
-
-* Multi-Factor Authentication (MFA)
-* Permission boundaries based on job requirements
-* Reduced risk of accidental or unauthorised changes
-
----
-
-# Architecture Diagram
-
-The architecture includes:
-
-* 1 VPC
-* 2 Availability Zones
-* 2 Public Subnets
-* 2 Private Subnets
-* Internet Gateway
+* Amazon VPC
+* Public & Private Subnets
+* Internet Gateway (IGW)
 * NAT Gateway
 * Route Tables
 * Security Groups
-* IAM Role with MFA
-
-<img width="1536" height="1024" alt="B233D15A-7D74-43E8-95F6-D170D5A2773B" src="https://github.com/user-attachments/assets/ae42f3d6-737b-4dfc-8b0e-f2ed3576c408" />
+* IAM (Identity and Access Management)
 
 ---
 
-# Key Skills Demonstrated
+## 🌐 Network Design
 
-* AWS Networking
-* VPC Design
-* Route Table Configuration
-* Internet Gateway Implementation
-* NAT Gateway Configuration
-* Security Group Design
-* IAM Access Control
-* Least Privilege Security
-* Multi-AZ Architecture
-* Cloud Infrastructure Documentation
+### 🏛️ VPC Setup
+
+* Created a custom VPC with a dedicated CIDR block
+* Enabled DNS resolution and DNS hostnames
+* Implemented a Multi-AZ architecture spanning two Availability Zones
 
 ---
 
-# What I Learned
+### 📊 Subnet Design
 
-This project strengthened my understanding of how secure AWS environments are structured in production settings.
+| Tier     | Type    | Purpose                 |
+| -------- | ------- | ----------------------- |
+| Web Tier | Public  | Internet-facing layer   |
+| App Tier | Private | Application logic layer |
+| DB Tier  | Private | Data storage layer      |
 
-Key lessons included:
+---
 
+### 🔀 Routing Configuration
+
+* Public Subnets → Internet Gateway (IGW)
+* Private Subnets → NAT Gateway
+* No direct internet access for private workloads
+
+---
+
+## 🔐 Security Architecture
+
+### Security Groups
+
+#### Web-SG
+
+* HTTP (80)
+* HTTPS (443)
+* Open to internet traffic
+
+#### App-SG
+
+* Port 8080
+* Accessible only from Web-SG
+
+#### DB-SG
+
+* MySQL (3306)
+* PostgreSQL (5432)
+* Accessible only from App-SG
+
+---
+
+### 🔒 Security Principles Applied
+
+* Principle of Least Privilege
+* Tier-to-tier communication only
+* No direct database exposure
+* Controlled inbound and outbound traffic
+* Security group-based access control
+
+---
+
+## 👤 IAM Configuration
+
+### IAM Role: DevOpsStudentRole
+
+#### Policies Attached
+
+* AmazonEC2ReadOnlyAccess
+* AmazonVPCReadOnlyAccess
+* AmazonS3ReadOnlyAccess
+
+#### Security Enhancements
+
+* Multi-Factor Authentication (MFA) enabled
+* Least-privilege access model enforced
+
+---
+
+## 🛠️ Implementation Steps
+
+### 1️⃣ VPC Setup
+
+* Created a custom VPC with a dedicated CIDR block
+* Enabled DNS resolution and DNS hostnames
+
+### 2️⃣ Subnet Design
+
+* Created Public Subnets for the Web Tier
+* Created Private Subnets for the Application Tier
+* Created Private Subnets for the Database Tier
+* Distributed resources across two Availability Zones for high availability
+
+### 3️⃣ Internet Gateway (IGW)
+
+* Created and attached an Internet Gateway to the VPC
+* Enabled internet access for public-facing resources
+
+### 4️⃣ NAT Gateway
+
+* Deployed a NAT Gateway within a public subnet
+* Assigned an Elastic IP address
+* Enabled secure outbound internet access for private subnets
+
+### 5️⃣ Route Tables
+
+#### Public Route Table
+
+* 0.0.0.0/0 → Internet Gateway
+
+#### Private Route Table
+
+* 0.0.0.0/0 → NAT Gateway
+
+### 6️⃣ Security Groups
+
+* Implemented tier-based network access controls
+* Restricted communication between tiers using security groups
+* Applied least-privilege networking principles
+
+### 7️⃣ IAM & MFA
+
+* Created the DevOpsStudentRole IAM role
+* Attached read-only AWS managed policies
+* Enabled Multi-Factor Authentication (MFA)
+
+### 8️⃣ Architecture Validation
+
+Validated the following traffic flow:
+
+* Internet → Internet Gateway → Web Tier
+* Web Tier → Application Tier
+* Application Tier → Database Tier
+* Private Subnets → NAT Gateway → Internet
+
+---
+
+## Architecture Diagram
+
+<img width="1536" height="1024" alt="aws-architecture" src="https://github.com/user-attachments/assets/3cd196a0-7c57-44a7-bacd-6995ce3136ef" /> 
+
+---
+
+## Key Learnings
+
+* How Amazon VPC provides network isolation within AWS
 * The difference between Internet Gateways and NAT Gateways
-* How route tables control traffic flow
-* Why network segmentation is important
-* How Security Groups enforce layered security
-* The importance of least-privilege IAM design
-* How cloud networking components work together to create secure environments
+* Designing secure multi-tier cloud architectures
+* Implementing micro-segmentation using Security Groups
+* Applying IAM Role-Based Access Control (RBAC)
+* Enhancing cloud security through MFA and least-privilege access
 
 ---
 
-# Outcome
+## Future Improvements
 
-By completing this project, I demonstrated the ability to build a secure AWS foundation that reflects common enterprise networking and security practices.
+* Deploy EC2 instances within each application tier
+* Implement an Application Load Balancer (ALB)
+* Configure Auto Scaling Groups
+* Add CloudWatch monitoring and alerting
+* Rebuild the environment using Terraform (Infrastructure as Code)
+* Introduce CI/CD automation using GitHub Actions
 
-The environment provides a scalable starting point for deploying future applications and infrastructure while maintaining security and operational control.
+---
+
+## Final Note
+
+This project demonstrates my ability to design and implement a secure, production-style AWS environment using industry-standard cloud architecture and security best practices.
+
+The solution showcases practical experience with AWS networking, security controls, access management, and infrastructure design principles commonly used in Cloud Engineer, AWS Engineer, and DevOps Engineer roles.
