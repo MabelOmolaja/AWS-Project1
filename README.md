@@ -1,4 +1,4 @@
-# ☁️ AWS Secure Multi-AZ Base Environment
+# AWS Secure Multi-AZ Base Environment
 
 **Author:** Mabel Omolaja (maybelomolaja@gmail.com)
 
