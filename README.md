@@ -251,6 +251,4 @@ Validated the following traffic flow:
 
 ## Final Note
 
-This project demonstrates my ability to design and implement a secure, production-style AWS environment using industry-standard cloud architecture and security best practices.
-
-The solution showcases practical experience with AWS networking, security controls, access management, and infrastructure design principles commonly used in Cloud Engineer, AWS Engineer, and DevOps Engineer roles.
+This project demonstrates my ability to design and implement a secure, production-style AWS environment using industry-standard cloud architecture and security best practices. The solution showcases practical experience with AWS networking, security controls, access management, and infrastructure design principles commonly used in Cloud Engineer, AWS Engineer, and DevOps Engineer roles.
