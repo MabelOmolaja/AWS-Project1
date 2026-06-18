@@ -38,10 +38,9 @@ The environment was designed to achieve the following goals:
 
 ### Virtual Private Cloud (VPC)
 
-A dedicated VPC was created to provide complete control over networking, routing, and security boundaries.
-
 <img width="1280" height="637" alt="VPC" src="https://github.com/user-attachments/assets/4b62b204-68c5-4a75-a142-52a39db85f09" />
 
+A dedicated VPC was created to provide complete control over networking, routing, and security boundaries.
 
 ### Public Subnets
 
@@ -77,9 +76,9 @@ An Internet Gateway was attached to the VPC to provide inbound and outbound inte
 
 ## NAT Gateway
 
-A NAT Gateway was deployed to allow resources in private subnets to initiate outbound internet connections while remaining inaccessible from the public internet.
-
 <img width="1280" height="644" alt="NAT" src="https://github.com/user-attachments/assets/ee416938-0696-4827-a848-6b9f87ec5eea" />
+
+A NAT Gateway was deployed to allow resources in private subnets to initiate outbound internet connections while remaining inaccessible from the public internet.
 
 This approach is commonly used for:
 
@@ -93,6 +92,8 @@ without exposing private resources to inbound internet traffic.
 
 ## Route Tables
 
+<img width="1280" height="638" alt="RT" src="https://github.com/user-attachments/assets/710e81a7-1fe2-433d-884a-4bee5c694e2a" />
+
 Separate route tables were configured to control traffic flow.
 
 ### Public Route Table (Pub-rtb)
@@ -101,8 +102,6 @@ Configured with routes to:
 
 * Local VPC traffic
 * Internet Gateway (0.0.0.0/0)
-
-<img width="1280" height="638" alt="RT" src="https://github.com/user-attachments/assets/710e81a7-1fe2-433d-884a-4bee5c694e2a" />
 
 ### Private Route Table (Pri-rtb)
 
@@ -119,9 +118,9 @@ This design ensures proper network isolation while maintaining required connecti
 
 ## Security Groups
 
-Security Groups were designed using a layered security approach.
-
 <img width="1280" height="661" alt="security groups" src="https://github.com/user-attachments/assets/e7f00271-b7fe-40b9-92d5-de4186711509" />
+
+Security Groups were designed using a layered security approach.
 
 ### Web Security Group
 
@@ -153,19 +152,17 @@ This security model reduces the attack surface and follows industry best practic
 
 # 👤 Identity & Access Management (IAM)
 
+<img width="1280" height="673" alt="readonly" src="https://github.com/user-attachments/assets/61f5159e-461e-4e6d-9b46-123e53cc225f" />
+
 A custom IAM role named:
 
 **DevOpsStudentRole**
 
 was created in accordance with the principle of least privilege.
 
-<img width="1280" height="673" alt="readonly" src="https://github.com/user-attachments/assets/61f5159e-461e-4e6d-9b46-123e53cc225f" />
-
-
 The role was configured to provide only the permissions required to perform designated tasks rather than broad administrative access.
 
 <img width="1278" height="627" alt="DevOps MFA" src="https://github.com/user-attachments/assets/dbd7037c-c755-48d0-ac01-3b875742be94" />
-
 
 Additional security controls included:
 
@@ -175,7 +172,7 @@ Additional security controls included:
 
 ---
 
-# 📊 Architecture Diagram
+# Architecture Diagram
 
 The architecture includes:
 
@@ -186,6 +183,8 @@ The architecture includes:
 * Internet Gateway
 * NAT Gateway
 * Route Tables
+* Security Groups
+* IAM Role with MFA
 
 <img width="1536" height="1024" alt="B233D15A-7D74-43E8-95F6-D170D5A2773B" src="https://github.com/user-attachments/assets/ae42f3d6-737b-4dfc-8b0e-f2ed3576c408" />
 
