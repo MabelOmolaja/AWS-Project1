@@ -40,6 +40,7 @@ The environment was designed to achieve the following goals:
 
 <img width="1280" height="637" alt="VPC" src="https://github.com/user-attachments/assets/4b62b204-68c5-4a75-a142-52a39db85f09" />
 
+
 A dedicated VPC was created to provide complete control over networking, routing, and security boundaries.
 
 ### Public Subnets
